@@ -14,6 +14,23 @@ use Illuminate\Support\Str;
 
 class CatalogSeeder extends Seeder
 {
+    /**
+     * Penanda target karier per program untuk rekomendasi MBL.
+     *
+     * @var array<string, list<string>>
+     */
+    private const CAREER_TRACKS = [
+        'fullstack-web-development' => ['software_engineer', 'frontend_developer'],
+        'ui-ux-design-product' => ['ui_ux_designer'],
+        'digital-marketing' => ['digital_marketer'],
+        'data-analytics' => ['data_analyst'],
+        'human-resources-management' => ['hr_professional'],
+        'figma-auto-layout-design-system' => ['ui_ux_designer', 'frontend_developer'],
+        'laravel-untuk-pemula' => ['software_engineer'],
+        'seo-fundamental' => ['digital_marketer'],
+        'webinar-memulai-karier-di-tech' => ['software_engineer', 'frontend_developer', 'ui_ux_designer', 'data_analyst', 'digital_marketer'],
+    ];
+
     public function run(): void
     {
         $categories = collect(['Teknologi', 'Desain', 'Marketing', 'Data', 'Bisnis & HR', 'Karier'])
@@ -79,6 +96,7 @@ class CatalogSeeder extends Seeder
                 'is_published' => true,
             ]);
 
+            $program->update(['career_tracks' => self::CAREER_TRACKS[$slug] ?? []]);
             $this->seedCurriculum($program);
 
             if ($type->requiresCohort()) {

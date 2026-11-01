@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             ['mentor3@kea.test', 'Dimas Wicaksono', Role::Mentor, ['headline' => 'Product Designer', 'company' => 'Startup Fintech']],
             ['learner@kea.test', 'Sari Wulandari', Role::Learner, ['phone' => '081234567890']],
             ['alumni@kea.test', 'Bima Santoso', Role::Learner, ['headline' => 'Junior Web Developer', 'phone' => '081298765432']],
+            ['partner@kea.test', 'Dewi Kartika', Role::Partner, ['headline' => 'Talent Acquisition Lead']],
         ];
 
         foreach ($accounts as [$email, $name, $role, $extra]) {

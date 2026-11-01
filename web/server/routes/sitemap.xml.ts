@@ -13,7 +13,9 @@ export default defineCachedEventHandler(async (event) => {
     page++
   } while (page <= last)
 
-  const urls = ['/', '/program', '/verify', ...slugs.map(s => `/program/${s}`)]
+  const jobs = await $fetch<ProgramPage>(`${apiOrigin}/api/v1/jobs`, { query: { per_page: 30 }, headers: { Accept: 'application/json' } }).catch(() => null)
+
+  const urls = ['/', '/program', '/verify', '/jalur-karier', '/lowongan', ...slugs.map(s => `/program/${s}`), ...(jobs?.data ?? []).map(j => `/lowongan/${j.slug}`)]
   setHeader(event, 'Content-Type', 'application/xml; charset=utf-8')
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url><loc>${siteUrl}${u}</loc></url>`).join('\n')}\n</urlset>\n`
 }, { maxAge: 3600 })

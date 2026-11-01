@@ -12,6 +12,9 @@ const menu = computed(() => [
   { label: 'Tugas', to: '/dashboard#tugas' },
   { label: 'Sertifikat', to: '/dashboard/sertifikat' },
   { label: 'Pesanan', to: '/dashboard/pesanan' },
+  { label: 'Lamaran', to: '/dashboard/lamaran' },
+  { label: 'Lowongan', to: '/lowongan' },
+  { label: 'Jalur Karier', to: '/jalur-karier' },
   { label: 'Profil Karier', to: '/dashboard/profil' },
   ...(auth.isMentor ? [{ label: 'Review Tugas (Mentor)', to: '/mentor' }] : []),
 ])

@@ -6,6 +6,7 @@ export const useAuthStore = defineStore('auth', () => {
   const loaded = ref(false)
 
   const isLoggedIn = computed(() => user.value !== null)
+  const isPartner = computed(() => user.value?.roles.includes('partner') ?? false)
   const isMentor = computed(() => user.value?.roles.some(r => ['mentor', 'pm', 'admin'].includes(r)) ?? false)
 
   async function fetchUser(force = false) {
@@ -34,5 +35,5 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
   }
 
-  return { user, loaded, isLoggedIn, isMentor, fetchUser, login, register, logout }
+  return { user, loaded, isLoggedIn, isMentor, isPartner, fetchUser, login, register, logout }
 })

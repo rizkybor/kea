@@ -160,6 +160,10 @@ useHead({
         </div>
         <NuxtLink to="/#faq" class="py-3 font-bold">Baca syarat →</NuxtLink>
       </div>
+      <div class="flex flex-wrap gap-3">
+        <NuxtLink to="/jalur-karier" class="btn-primary">Mulai kuesioner jalur karier</NuxtLink>
+        <NuxtLink to="/lowongan" class="btn-outline">Lihat lowongan mitra</NuxtLink>
+      </div>
     </section>
 
     <section v-if="testimonials?.data.length" class="bg-kea-surface">

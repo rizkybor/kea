@@ -2,9 +2,12 @@
 
 namespace App\Modules\Identity\Models;
 
+use App\Modules\Career\Models\Company;
+use App\Modules\Career\Models\JobApplication;
 use App\Modules\Catalog\Models\Cohort;
 use App\Modules\Commerce\Models\Order;
 use App\Modules\Identity\Enums\Role;
+use App\Modules\Learning\Enums\EnrollmentStatus;
 use App\Modules\Learning\Models\Enrollment;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
@@ -14,6 +17,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,7 +26,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-#[Fillable(['name', 'email', 'password', 'phone', 'headline', 'company', 'bio', 'avatar_url', 'portfolio_url', 'linkedin_url', 'cv_path'])]
+#[Fillable(['name', 'email', 'password', 'phone', 'headline', 'company', 'bio', 'avatar_url', 'portfolio_url', 'linkedin_url', 'cv_path', 'company_id', 'city', 'skills', 'open_to_work', 'talent_consent_at'])]
 #[Hidden(['password', 'remember_token'])]
 #[UseFactory(UserFactory::class)]
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail
@@ -43,6 +47,9 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'skills' => 'array',
+            'open_to_work' => 'boolean',
+            'talent_consent_at' => 'datetime',
         ];
     }
 
@@ -75,5 +82,31 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     public function mentoredCohorts(): BelongsToMany
     {
         return $this->belongsToMany(Cohort::class, 'cohort_mentors');
+    }
+
+    /**
+     * Alumni = punya minimal satu enrollment yang sudah lulus.
+     */
+    public function isAlumni(): bool
+    {
+        return $this->enrollments()->where('status', EnrollmentStatus::Completed)->exists();
+    }
+
+    /**
+     * Perusahaan yang diwakili akun hiring partner.
+     *
+     * @return BelongsTo<Company, $this>
+     */
+    public function partnerCompany(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
+
+    /**
+     * @return HasMany<JobApplication, $this>
+     */
+    public function jobApplications(): HasMany
+    {
+        return $this->hasMany(JobApplication::class);
     }
 }

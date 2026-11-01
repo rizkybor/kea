@@ -40,3 +40,41 @@ export const submissionStatusLabel: Record<string, { label: string; tone: 'olive
   submitted: { label: 'Direview', tone: 'muted' },
   reviewed: { label: 'Selesai', tone: 'olive' },
 }
+
+export function salaryRange(min: number | null, max: number | null): string | null {
+  if (!min && !max) return null
+  const short = (v: number) => (v >= 1_000_000 ? `${(v / 1_000_000).toLocaleString('id-ID', { maximumFractionDigits: 1 })} jt` : rupiah(v))
+  if (min && max) return `Rp${short(min).replace('Rp', '')} – ${short(max).replace('Rp', '')}`
+  return `Rp${short((min ?? max)!).replace('Rp', '')}`
+}
+
+export const applicationTone: Record<string, 'olive' | 'ember' | 'muted'> = {
+  applied: 'muted',
+  reviewing: 'muted',
+  interview: 'ember',
+  offered: 'ember',
+  hired: 'olive',
+  rejected: 'muted',
+  withdrawn: 'muted',
+}
+
+export const applicationPipeline = [
+  { value: 'reviewing', label: 'Ditinjau' },
+  { value: 'interview', label: 'Interview' },
+  { value: 'offered', label: 'Penawaran' },
+  { value: 'hired', label: 'Diterima' },
+  { value: 'rejected', label: 'Tidak lolos' },
+] as const
+
+export const employmentTypes = [
+  { value: 'full_time', label: 'Full-time' },
+  { value: 'contract', label: 'Kontrak' },
+  { value: 'internship', label: 'Magang' },
+  { value: 'part_time', label: 'Part-time' },
+] as const
+
+export const workModes = [
+  { value: 'onsite', label: 'On-site' },
+  { value: 'hybrid', label: 'Hybrid' },
+  { value: 'remote', label: 'Remote' },
+] as const

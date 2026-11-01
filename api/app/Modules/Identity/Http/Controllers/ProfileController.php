@@ -18,9 +18,25 @@ class ProfileController
             'bio' => ['nullable', 'string', 'max:2000'],
             'portfolio_url' => ['nullable', 'url:https,http', 'max:255'],
             'linkedin_url' => ['nullable', 'url:https,http', 'max:255'],
+            'city' => ['nullable', 'string', 'max:80'],
+            'skills' => ['nullable', 'array', 'max:15'],
+            'skills.*' => ['string', 'max:50'],
+            'open_to_work' => ['boolean'],
+            'talent_consent' => ['boolean'],
         ]);
 
-        $request->user()->update($data);
+        $user = $request->user();
+
+        // Consent talent pool dicatat waktunya (UU PDP); mencabut consent langsung menyembunyikan profil.
+        if (array_key_exists('talent_consent', $data)) {
+            $data['talent_consent_at'] = $data['talent_consent'] ? ($user->talent_consent_at ?? now()) : null;
+            unset($data['talent_consent']);
+        }
+        if (isset($data['skills'])) {
+            $data['skills'] = array_values(array_unique(array_filter(array_map('trim', $data['skills']))));
+        }
+
+        $user->update($data);
 
         return new UserResource($request->user());
     }

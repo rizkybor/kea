@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Dashboard } from '~/types/api'
+import type { CareerResult, Dashboard } from '~/types/api'
 import { formatDate, formatDateTime, formatTime } from '~/utils/format'
 
 definePageMeta({ layout: 'learner', middleware: 'auth' })
@@ -7,6 +7,7 @@ definePageMeta({ layout: 'learner', middleware: 'auth' })
 const api = useApi()
 const auth = useAuthStore()
 const { data, status, error, refresh } = await useAsyncData('dashboard', () => api<{ data: Dashboard }>('/dashboard'))
+const { data: path } = await useAsyncData('career-path', () => api<{ data: CareerResult | null }>('/me/career-assessment').catch(() => ({ data: null })))
 const d = computed(() => data.value?.data)
 
 const firstName = computed(() => auth.user?.name.split(' ')[0] ?? '')
@@ -99,6 +100,19 @@ useSeoMeta({ title: 'Dashboard', robots: 'noindex' })
           <p v-if="!d.tasks.length" class="card p-4 text-sm text-kea-muted">Belum ada tugas.</p>
         </section>
       </div>
+
+      <section aria-label="Jalur karier" class="flex flex-wrap items-center justify-between gap-4 rounded-kea-lg border border-kea-line bg-white p-6">
+        <div v-if="path?.data?.primary" class="flex flex-col gap-1">
+          <span class="text-sm font-semibold text-kea-moss">Jalur belajarmu · {{ path.data.target_label }}</span>
+          <b class="text-lg">Rekomendasi: {{ path.data.primary.program.title }} <span class="text-sm font-semibold text-kea-moss">({{ path.data.primary.match_pct }}% cocok)</span></b>
+          <span class="text-[15px] text-kea-muted">{{ path.data.primary.reasons.slice(0, 2).join(' · ') }}</span>
+        </div>
+        <div v-else class="flex flex-col gap-1">
+          <b class="text-lg">Belum yakin program berikutnya?</b>
+          <span class="text-[15px] text-kea-muted">Isi kuesioner minat & target karier (±1 menit) untuk rekomendasi jalur belajar.</span>
+        </div>
+        <NuxtLink to="/jalur-karier" class="btn-outline">{{ path?.data ? 'Lihat jalur' : 'Mulai kuesioner' }}</NuxtLink>
+      </section>
 
       <section v-if="!d.profile_complete" aria-label="Karier" class="flex flex-wrap items-center justify-between gap-4 rounded-kea-lg bg-kea-olive-50 p-6">
         <div class="flex flex-col gap-1">

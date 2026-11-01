@@ -9,7 +9,8 @@ const links = [
   { label: 'Video Course', to: '/program?type=video_course' },
   { label: 'Short Class', to: '/program?type=short_class' },
   { label: 'Event', to: '/program?type=event' },
-  { label: 'Karier', to: '/#karier' },
+  { label: 'Jalur Karier', to: '/jalur-karier' },
+  { label: 'Lowongan', to: '/lowongan' },
   { label: 'Verifikasi Sertifikat', to: '/verify' },
 ]
 </script>
@@ -24,7 +25,8 @@ const links = [
       <div class="ml-auto hidden items-center gap-3 lg:flex">
         <template v-if="auth.isLoggedIn">
           <NuxtLink v-if="auth.isMentor" to="/mentor" class="btn-ghost">Review tugas</NuxtLink>
-          <NuxtLink to="/dashboard" class="btn-secondary">Dashboard</NuxtLink>
+          <NuxtLink v-if="auth.isPartner" to="/partner" class="btn-secondary">Portal Mitra</NuxtLink>
+          <NuxtLink v-else to="/dashboard" class="btn-secondary">Dashboard</NuxtLink>
         </template>
         <template v-else>
           <NuxtLink to="/masuk" class="btn-ghost">Masuk</NuxtLink>
@@ -39,7 +41,7 @@ const links = [
       <div class="container-kea flex flex-col gap-1 py-4">
         <NuxtLink v-for="link in links" :key="link.to" :to="link.to" class="rounded-kea-md px-2 py-3 font-medium text-kea-ink no-underline hover:bg-kea-surface">{{ link.label }}</NuxtLink>
         <div class="mt-3 flex gap-3">
-          <NuxtLink v-if="auth.isLoggedIn" to="/dashboard" class="btn-secondary flex-1">Dashboard</NuxtLink>
+          <NuxtLink v-if="auth.isLoggedIn" :to="auth.isPartner ? '/partner' : '/dashboard'" class="btn-secondary flex-1">{{ auth.isPartner ? 'Portal Mitra' : 'Dashboard' }}</NuxtLink>
           <template v-else>
             <NuxtLink to="/masuk" class="btn-outline flex-1">Masuk</NuxtLink>
             <NuxtLink to="/daftar" class="btn-primary flex-1">Daftar</NuxtLink>

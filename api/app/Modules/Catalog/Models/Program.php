@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[Fillable([
     'category_id', 'type', 'code', 'slug', 'title', 'summary', 'description', 'level', 'duration_label', 'format_label',
     'price', 'promo_price', 'installment_from', 'has_job_guarantee', 'thumbnail_url', 'preview_video_url',
-    'benefits', 'faqs', 'rating', 'rating_count', 'enrolled_count', 'is_published',
+    'benefits', 'faqs', 'rating', 'rating_count', 'enrolled_count', 'is_published', 'career_tracks',
 ])]
 #[ObservedBy(ProgramCacheObserver::class)]
 class Program extends Model
@@ -37,6 +37,7 @@ class Program extends Model
             'has_job_guarantee' => 'boolean',
             'benefits' => 'array',
             'faqs' => 'array',
+            'career_tracks' => 'array',
             'rating' => 'float',
             'is_published' => 'boolean',
         ];

@@ -73,6 +73,11 @@ export interface User {
   portfolio_url: string | null
   linkedin_url: string | null
   has_cv: boolean
+  city: string | null
+  skills: string[]
+  open_to_work: boolean
+  talent_consent: boolean
+  partner_company: { id: number; name: string; slug: string } | null
   roles: string[]
 }
 
@@ -230,4 +235,127 @@ export interface ApiErrorBody {
   message: string
   code?: string
   errors?: Record<string, string[]>
+}
+
+/* ---------- Phase 2: Job Connector & MBL ---------- */
+
+export type EmploymentType = 'full_time' | 'contract' | 'internship' | 'part_time'
+export type WorkMode = 'onsite' | 'hybrid' | 'remote'
+export type ApplicationStatus = 'applied' | 'reviewing' | 'interview' | 'offered' | 'hired' | 'rejected' | 'withdrawn'
+
+export interface Job {
+  id: number
+  slug: string
+  title: string
+  company?: { name: string; slug: string; industry: string | null; city: string | null; logo_url: string | null; website: string | null; description: string | null; is_verified: boolean }
+  category?: { name: string; slug: string } | null
+  employment_type: EmploymentType
+  employment_type_label: string
+  work_mode: WorkMode
+  work_mode_label: string
+  location: string | null
+  salary_min: number | null
+  salary_max: number | null
+  show_salary: boolean
+  skills: string[]
+  alumni_only: boolean
+  published_at: string | null
+  closes_at: string | null
+  is_open: boolean
+  description?: string
+  requirements?: string[]
+  status?: 'draft' | 'open' | 'closed'
+  applications_count?: number
+}
+
+export interface ApplicationEvent {
+  status: ApplicationStatus
+  status_label: string
+  note: string | null
+  actor?: string | null
+  at: string
+}
+
+export interface JobApplication {
+  id: number
+  status: ApplicationStatus
+  status_label: string
+  cover_letter: string | null
+  portfolio_url: string | null
+  applied_at: string
+  hired_at: string | null
+  job: Job
+  events: ApplicationEvent[]
+}
+
+export interface Talent {
+  id: number
+  name: string
+  headline: string | null
+  city: string | null
+  bio: string | null
+  skills: string[]
+  open_to_work: boolean
+  portfolio_url: string | null
+  linkedin_url: string | null
+  has_cv: boolean
+  best_score: number | null
+  programs: { title: string; cohort_name: string | null; completed_at: string | null; final_score: number | null; certificate_code: string | null }[]
+}
+
+export interface Applicant {
+  id: number
+  status: ApplicationStatus
+  status_label: string
+  cover_letter: string | null
+  portfolio_url: string | null
+  applied_at: string
+  has_cv: boolean
+  cv_url: string | null
+  email: string
+  phone: string | null
+  talent: Talent
+  events: ApplicationEvent[]
+}
+
+export interface PartnerCompany {
+  id: number
+  name: string
+  slug: string
+  industry: string | null
+  city: string | null
+  website: string | null
+  logo_url: string | null
+  is_verified: boolean
+  open_jobs: number
+  applications: number
+  hired: number
+}
+
+export interface CareerQuestion {
+  id: string
+  title: string
+  hint?: string
+  type: 'single' | 'multi'
+  max?: number
+  options: { value: string; label: string; hint?: string }[]
+}
+
+export interface Recommendation {
+  program: ProgramCard
+  match_pct: number
+  reasons: string[]
+  suggested_cohort_id: number | null
+}
+
+export interface CareerResult {
+  answers: Record<string, string | string[]>
+  target_track: string | null
+  target_label: string
+  tracks: string[]
+  primary: Recommendation | null
+  alternatives: Recommendation[]
+  warm_up: Recommendation | null
+  saved?: boolean
+  created_at?: string
 }

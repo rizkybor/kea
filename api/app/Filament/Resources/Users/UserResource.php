@@ -52,6 +52,11 @@ class UserResource extends Resource
                     ->dehydrated(fn (?string $state) => filled($state))
                     ->required(fn (string $operation) => $operation === 'create')
                     ->helperText('Kosongkan bila tidak diganti.'),
+                Select::make('company_id')
+                    ->label('Perusahaan (khusus hiring partner)')
+                    ->relationship('partnerCompany', 'name')
+                    ->searchable()
+                    ->preload(),
                 Select::make('roles')
                     ->relationship('roles', 'name')
                     ->multiple()

@@ -6,6 +6,7 @@ use App\Filament\Resources\Programs\Pages\CreateProgram;
 use App\Filament\Resources\Programs\Pages\EditProgram;
 use App\Filament\Resources\Programs\Pages\ListPrograms;
 use App\Filament\Resources\Programs\RelationManagers\SectionsRelationManager;
+use App\Modules\Career\Enums\CareerTrack;
 use App\Modules\Catalog\Enums\ProgramType;
 use App\Modules\Catalog\Models\Program;
 use BackedEnum;
@@ -55,6 +56,7 @@ class ProgramResource extends Resource
                     Select::make('category_id')->relationship('category', 'name')->required(),
                     Select::make('type')->options(ProgramType::class)->required(),
                     TextInput::make('code')->required()->maxLength(12)->helperText('Dipakai di kode sertifikat, mis. FSWD'),
+                    Select::make('career_tracks')->label('Target karier (MBL)')->options(CareerTrack::class)->multiple(),
                     Select::make('level')->options(['pemula' => 'Pemula', 'menengah' => 'Menengah', 'mahir' => 'Mahir'])->default('pemula')->required(),
                     TextInput::make('duration_label')->placeholder('4 bulan'),
                     TextInput::make('format_label')->placeholder('Live online'),

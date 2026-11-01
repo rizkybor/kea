@@ -40,12 +40,28 @@ Nuxt mem-proxy `/api` dan `/sanctum` ke Laravel, jadi cookie sesi Sanctum bekerj
 | `learner@kea.test` | learner | Bootcamp Fullstack berjalan + video course SEO |
 | `alumni@kea.test` | learner | Sudah lulus, sertifikat `KEA-FSWD-2026-000123` |
 | `mentor@kea.test` | mentor | Review tugas di `/mentor` |
-| `admin@kea.test` | admin | Panel Filament |
+| `admin@kea.test` | admin | Panel Filament (termasuk menu Karier: lowongan, lamaran & placement) |
+| `partner@kea.test` | partner | Portal Mitra `/partner` (Nusantara Fintech): lowongan, pipeline pelamar, talent pool |
 
 Voucher demo: `KEAHEMAT` (10%, maks. Rp500.000), `KEA250K`.
 Pembayaran lokal memakai gateway **simulator**: setelah memilih metode bayar, tombol "Simulasikan pembayaran berhasil"
 mengirim notifikasi lewat jalur webhook yang sama dengan Midtrans. Untuk Midtrans sandbox, isi `MIDTRANS_SERVER_KEY` dan
 `PAYMENT_GATEWAY=midtrans`, lalu arahkan notifikasi ke `POST /api/v1/webhooks/midtrans`.
+
+## Phase 2: Job Connector & MBL
+
+- **Jalur karier (MBL, LMS-08)** — `/jalur-karier`: 7 pertanyaan (target karier, minat, pengalaman, status, waktu, gaya
+  belajar, budget) → jalur belajar: *pemanasan* → *program utama* → *masuk dunia kerja*, tiap rekomendasi dengan
+  alasannya. Skor ada di `api/app/Modules/Career/Recommendation/CareerPathRecommender.php`; program ditandai target
+  kariernya lewat `programs.career_tracks` (bisa diatur di admin). Untuk yang mencari kerja, bootcamp bergaransi
+  diprioritaskan sebagai program utama.
+- **Job board (JOB-01)** — `/lowongan`: lowongan dari mitra (SSR + JSON-LD `JobPosting`). Melamar butuh CV di Profil
+  Karier; lowongan "khusus alumni" hanya untuk learner yang sudah lulus. CV di-snapshot saat melamar.
+- **Talent pool (JOB-02)** — `/partner/talent`: alumni yang memberi consent (dicatat waktunya, bisa dicabut) bisa dicari
+  per skill, program lulusan, dan nilai akhir. Email/HP tidak dibuka di talent pool.
+- **Placement tracking (JOB-03)** — setiap perubahan status lamaran tercatat di `job_application_events` (dasar klaim
+  garansi kerja). Career team memantau & mengoreksi status di admin; widget *Placement rate 6 bulan* di dashboard admin.
+- Akun hiring partner dibuat oleh admin (menu Pengguna → role `partner` + pilih perusahaan).
 
 ## Tes
 
@@ -64,5 +80,5 @@ cd web && pnpm typecheck
 
 ## Belum dikerjakan (perlu kredensial / di luar MVP)
 
-Login Google (Socialite), pengiriman email invoice PDF & WhatsApp (Qontak), integrasi Zoom API, resume posisi video Bunny
-(player.js), dan fitur Phase 2+ (job connector, MBL, short class/event lanjutan).
+Login Google (Socialite), pengiriman email invoice PDF & WhatsApp (Qontak) termasuk notifikasi status lamaran, integrasi
+Zoom API, resume posisi video Bunny (player.js), pencarian Meilisearch, dan fitur Phase 3 (simulasi kerja, corporate training).

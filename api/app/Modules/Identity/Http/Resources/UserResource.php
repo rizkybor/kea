@@ -29,6 +29,11 @@ class UserResource extends JsonResource
             'portfolio_url' => $this->portfolio_url,
             'linkedin_url' => $this->linkedin_url,
             'has_cv' => $this->cv_path !== null,
+            'city' => $this->city,
+            'skills' => $this->skills ?? [],
+            'open_to_work' => $this->open_to_work,
+            'talent_consent' => $this->talent_consent_at !== null,
+            'partner_company' => $this->partnerCompany?->only('id', 'name', 'slug'),
             'roles' => $this->getRoleNames(),
         ];
     }

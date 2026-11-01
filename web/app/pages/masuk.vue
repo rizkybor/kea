@@ -1,7 +1,10 @@
 <script setup lang="ts">
 const auth = useAuthStore()
 const route = useRoute()
-const redirect = computed(() => (typeof route.query.redirect === 'string' && route.query.redirect.startsWith('/') ? route.query.redirect : '/dashboard'))
+const redirect = computed(() => {
+  if (typeof route.query.redirect === 'string' && route.query.redirect.startsWith('/')) return route.query.redirect
+  return auth.isPartner ? '/partner' : '/dashboard'
+})
 const { values, errors, message, pending, submit } = useForm({ email: '', password: '', remember: true })
 
 async function onSubmit() {

@@ -18,7 +18,7 @@ class AdminPanelTest extends TestCase
         $this->actingAs($this->user(Role::Admin));
 
         $paths = ['', 'categories', 'programs', 'programs/create', "programs/{$program->slug}/edit", 'cohorts', 'cohorts/create', 'vouchers',
-            'orders', 'enrollments', 'submissions', 'live-sessions', 'refund-requests', 'certificates', 'testimonials', 'users', 'users/create'];
+            'orders', 'enrollments', 'submissions', 'companies', 'job-postings', 'job-postings/create', 'job-applications', 'live-sessions', 'refund-requests', 'certificates', 'testimonials', 'users', 'users/create'];
 
         foreach ($paths as $path) {
             $this->get("/admin/{$path}")->assertOk();

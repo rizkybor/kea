@@ -1,5 +1,8 @@
 <?php
 
+use App\Modules\Career\Http\Controllers\CareerAssessmentController;
+use App\Modules\Career\Http\Controllers\JobController;
+use App\Modules\Career\Http\Controllers\PartnerController;
 use App\Modules\Catalog\Http\Controllers\HomeController;
 use App\Modules\Catalog\Http\Controllers\ProgramController;
 use App\Modules\Certification\Http\Controllers\CertificateController;
@@ -27,6 +30,12 @@ Route::prefix('v1')->group(function () {
         Route::get('programs/{slug}', [ProgramController::class, 'show']);
         Route::get('certificates/verify/{code}', [CertificateController::class, 'verify']);
         Route::get('certificates/{code}/pdf', [CertificateController::class, 'pdf'])->name('certificates.pdf');
+
+        // Karier: job board & kuesioner MBL (publik)
+        Route::get('jobs', [JobController::class, 'index']);
+        Route::get('jobs/{slug}', [JobController::class, 'show'])->name('jobs.show');
+        Route::get('career/questions', [CareerAssessmentController::class, 'questions']);
+        Route::post('career/assessments', [CareerAssessmentController::class, 'store']);
     });
 
     Route::post('webhooks/{gateway}', PaymentWebhookController::class)->name('webhooks.payment');
@@ -73,6 +82,27 @@ Route::prefix('v1')->group(function () {
         Route::post('enrollments/{enrollment}/lessons/{lesson}/discussions', [LessonController::class, 'postDiscussion']);
         Route::get('enrollments/{enrollment}/live-sessions/{liveSession}/join', [LessonController::class, 'joinLive']);
         Route::get('certificates', [CertificateController::class, 'mine']);
+
+        // Karier (learner)
+        Route::post('jobs/{slug}/apply', [JobController::class, 'apply'])->middleware('throttle:checkout');
+        Route::get('me/applications', [JobController::class, 'myApplications']);
+        Route::post('me/applications/{application}/withdraw', [JobController::class, 'withdraw']);
+        Route::get('me/career-assessment', [CareerAssessmentController::class, 'latest']);
+
+        // Hiring partner
+        Route::middleware('role:partner')->prefix('partner')->group(function () {
+            Route::get('company', [PartnerController::class, 'company']);
+            Route::get('jobs', [PartnerController::class, 'jobs']);
+            Route::post('jobs', [PartnerController::class, 'storeJob']);
+            Route::get('jobs/{job}', [PartnerController::class, 'showJob']);
+            Route::put('jobs/{job}', [PartnerController::class, 'updateJob']);
+            Route::get('jobs/{job}/applicants', [PartnerController::class, 'applicants']);
+            Route::put('applications/{application}', [PartnerController::class, 'updateApplication']);
+            Route::get('applications/{application}/cv', [PartnerController::class, 'applicationCv']);
+            Route::get('talents', [PartnerController::class, 'talents']);
+            Route::get('talents/{user}', [PartnerController::class, 'talent']);
+            Route::get('talents/{user}/cv', [PartnerController::class, 'talentCv']);
+        });
 
         // Mentor
         Route::middleware('role:mentor|pm|admin')->prefix('mentor')->group(function () {

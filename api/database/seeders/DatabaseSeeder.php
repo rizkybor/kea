@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             CatalogSeeder::class,
             CommerceSeeder::class,
             LearningSeeder::class,
+            CareerSeeder::class,
         ]);
     }
 }

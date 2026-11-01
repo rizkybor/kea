@@ -8,6 +8,7 @@ const u = auth.user!
 const { values, errors, message, pending, submit } = useForm({
   name: u.name, phone: u.phone ?? '', headline: u.headline ?? '', company: u.company ?? '',
   bio: u.bio ?? '', portfolio_url: u.portfolio_url ?? '', linkedin_url: u.linkedin_url ?? '',
+  city: u.city ?? '', skills: [...u.skills], open_to_work: u.open_to_work, talent_consent: u.talent_consent,
 })
 const saved = ref(false)
 
@@ -61,7 +62,25 @@ useSeoMeta({ title: 'Profil Karier', robots: 'noindex' })
         <label class="field">Link portofolio<input v-model="values.portfolio_url" type="url" placeholder="https://" class="input" :class="errors.portfolio_url && 'input-error'"><span v-if="errors.portfolio_url" class="error-text">{{ errors.portfolio_url }}</span></label>
         <label class="field">LinkedIn<input v-model="values.linkedin_url" type="url" placeholder="https://linkedin.com/in/…" class="input" :class="errors.linkedin_url && 'input-error'"><span v-if="errors.linkedin_url" class="error-text">{{ errors.linkedin_url }}</span></label>
       </div>
+      <label class="field">Kota domisili<input v-model="values.city" placeholder="mis. Jakarta Timur" class="input"></label>
+      <div class="field">
+        <label for="skills">Skill <span class="font-normal text-kea-muted">(Enter untuk menambah, maks. 15)</span></label>
+        <TagInput id="skills" v-model="values.skills" placeholder="mis. Laravel, Figma, SQL" />
+        <span v-if="errors.skills" class="error-text">{{ errors.skills }}</span>
+      </div>
       <label class="field">Ringkasan diri<textarea v-model="values.bio" rows="4" class="input" /></label>
+      <fieldset class="flex flex-col gap-3 rounded-xl border border-kea-line p-4">
+        <legend class="px-1 text-sm font-bold">Talent pool & lowongan</legend>
+        <label class="flex items-start gap-3 text-[15px]">
+          <input v-model="values.open_to_work" type="checkbox" class="mt-1 size-[18px] accent-kea-forest">
+          <span><b>Open to work</b><br><span class="text-sm text-kea-muted">Tampilkan bahwa kamu sedang mencari kerja.</span></span>
+        </label>
+        <label class="flex items-start gap-3 text-[15px]">
+          <input v-model="values.talent_consent" type="checkbox" class="mt-1 size-[18px] accent-kea-forest">
+          <span><b>Izinkan profil saya tampil di talent pool mitra hiring</b><br>
+            <span class="text-sm text-kea-muted">Hanya untuk alumni yang sudah lulus. Mitra dapat melihat nama, headline, kota, skill, link portofolio/LinkedIn, sertifikat & nilai, serta mengunduh CV. Email & nomor HP tidak ditampilkan. Persetujuan bisa dicabut kapan saja (UU PDP).</span></span>
+        </label>
+      </fieldset>
       <button type="submit" class="btn-secondary self-start" :disabled="pending">{{ pending ? 'Menyimpan…' : 'Simpan profil' }}</button>
     </form>
 

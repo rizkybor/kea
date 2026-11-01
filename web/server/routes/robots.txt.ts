@@ -8,6 +8,7 @@ export default defineEventHandler((event) => {
     'Disallow: /learn',
     'Disallow: /checkout',
     'Disallow: /mentor',
+    'Disallow: /partner',
     'Disallow: /api/',
     'Disallow: /admin',
     `Sitemap: ${siteUrl}/sitemap.xml`,
