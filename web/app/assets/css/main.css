@@ -1,0 +1,120 @@
+@import 'tailwindcss';
+
+/* Design token KEA v1 — sama dengan brand/tokens.css & docs/02-uiux-design.md §6 */
+@theme {
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  --color-kea-forest: #0e3b34;
+  --color-kea-olive: #8a9a3b;
+  --color-kea-moss: #5e6b26;
+  --color-kea-ember: #f26b2a;
+  --color-kea-ink: #14110f;
+  --color-kea-muted: #4f5550;
+  --color-kea-surface: #f6f7f3;
+  --color-kea-line: #e4e6df;
+  --color-kea-field: #c9ccc3;
+  --color-kea-mist: #f1f2ee;
+  --color-kea-on-forest: #e4ebe6;
+  --color-kea-olive-50: #e9edd6;
+  --color-kea-olive-900: #3f4a14;
+  --color-kea-ember-50: #fde6da;
+  --color-kea-ember-900: #8a3410;
+
+  --radius-kea-sm: 8px;
+  --radius-kea-md: 10px;
+  --radius-kea-lg: 16px;
+
+  --text-display: 52px;
+  --text-display--line-height: 1.1;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-white font-sans text-kea-ink antialiased;
+  }
+  a {
+    @apply text-kea-forest hover:text-kea-moss;
+  }
+  /* Fokus keyboard terlihat: ring 2px forest (WCAG 2.2 AA) */
+  :focus-visible {
+    outline: 2px solid var(--color-kea-forest);
+    outline-offset: 2px;
+  }
+  details > summary {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .container-kea {
+    @apply mx-auto w-full max-w-[1240px] px-6;
+  }
+
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline,
+  .btn-ghost {
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-kea-md px-5 py-3 text-[15px] font-bold no-underline transition-colors disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  /* Ember selalu dengan teks ink: teks putih ~3:1 gagal AA */
+  .btn-primary {
+    @apply bg-kea-ember text-kea-ink hover:bg-[#e45e1e] hover:text-kea-ink;
+  }
+  .btn-secondary {
+    @apply border border-kea-forest bg-kea-forest text-white hover:bg-[#0a2c27] hover:text-white;
+  }
+  .btn-outline {
+    @apply border-[1.5px] border-kea-forest bg-white text-kea-forest hover:bg-kea-surface;
+  }
+  .btn-ghost {
+    @apply bg-transparent font-semibold text-kea-forest hover:bg-kea-surface;
+  }
+
+  .field {
+    @apply flex flex-col gap-1.5 text-sm font-semibold;
+  }
+  .input {
+    @apply min-h-11 w-full rounded-kea-md border border-kea-field bg-white px-3.5 py-2.5 text-[15px] font-normal text-kea-ink placeholder:text-[#7a7f78] focus:border-kea-forest focus:outline-none disabled:bg-kea-mist;
+  }
+  .input-error {
+    @apply border-[#b42318];
+  }
+  .error-text {
+    @apply text-[13px] font-medium text-[#b42318];
+  }
+
+  .badge,
+  .badge-olive,
+  .badge-ember,
+  .badge-muted {
+    @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold;
+  }
+  .badge-olive {
+    @apply bg-kea-olive-50 text-kea-olive-900;
+  }
+  .badge-ember {
+    @apply bg-kea-ember-50 text-kea-ember-900;
+  }
+  .badge-muted {
+    @apply bg-kea-mist text-kea-muted;
+  }
+
+  .card {
+    @apply rounded-kea-lg border border-kea-line bg-white;
+  }
+
+  .pill {
+    @apply inline-flex min-h-11 cursor-pointer items-center rounded-full border border-kea-field bg-white px-[18px] py-2.5 text-[15px] font-semibold text-kea-ink;
+  }
+  .pill[aria-pressed='true'] {
+    @apply border-kea-forest bg-kea-forest text-white;
+  }
+
+  .h-section {
+    @apply text-[28px] leading-tight font-extrabold md:text-[34px];
+  }
+}
