@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Talent } from '~/types/api'
+import { asset } from '~/utils/asset'
 import { formatDate } from '~/utils/format'
 
 definePageMeta({ layout: 'partner', middleware: ['auth', 'partner'] })
@@ -24,7 +25,7 @@ useSeoMeta({ title: () => t.value?.name ?? 'Talent', robots: 'noindex' })
           <span v-if="t.open_to_work" class="badge-olive mt-1 self-start">Open to work</span>
         </div>
         <div class="flex flex-wrap gap-2">
-          <a v-if="t.has_cv" :href="`/api/v1/partner/talents/${t.id}/cv`" class="btn-secondary">Unduh CV</a>
+          <a v-if="t.has_cv" :href="useRuntimeConfig().public.demo ? asset('demo/cv-contoh.pdf') : `/api/v1/partner/talents/${t.id}/cv`" class="btn-secondary">Unduh CV</a>
           <a v-if="t.linkedin_url" :href="t.linkedin_url" target="_blank" rel="noopener" class="btn-outline">LinkedIn</a>
           <a v-if="t.portfolio_url" :href="t.portfolio_url" target="_blank" rel="noopener" class="btn-outline">Portofolio</a>
         </div>

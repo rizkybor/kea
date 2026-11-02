@@ -7,7 +7,10 @@
     "build": "nuxt build",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "nuxt typecheck",
+    "demo:snapshot": "node scripts/snapshot-demo.mjs",
+    "demo:build": "KEA_DEMO=1 nuxt generate && rm -rf dist-demo kea-prototype.zip && cp -R .output/public dist-demo && sed -i.bak 's#<title>[^<]*</title>#<title>KEA Prototype</title>#' dist-demo/index.html && rm dist-demo/index.html.bak && cd dist-demo && zip -qr ../kea-prototype.zip .",
+    "demo:preview": "npx --yes serve dist-demo -l 4000"
   },
   "dependencies": {
     "@pinia/nuxt": "^1.0.3",

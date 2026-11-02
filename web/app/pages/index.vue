@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { asset } from '~/utils/asset'
 import type { Paginated, ProgramCard, Testimonial } from '~/types/api'
 
 const api = useApi()
@@ -96,7 +97,7 @@ useHead({
               <span class="text-sm font-semibold">proyek portofolio</span>
             </div>
             <div class="col-span-2 flex items-center gap-4 rounded-2xl bg-white p-5 text-kea-ink">
-              <img src="/kea-icon.svg" alt="" width="56" height="56">
+              <img :src="asset('kea-icon.svg')" alt="" width="56" height="56">
               <div class="flex flex-1 flex-col gap-2">
                 <span class="text-sm font-bold">Progres belajar</span>
                 <ProgressBar :value="72" label="Contoh progres" />

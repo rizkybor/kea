@@ -63,6 +63,26 @@ mengirim notifikasi lewat jalur webhook yang sama dengan Midtrans. Untuk Midtran
   garansi kerja). Career team memantau & mengoreksi status di admin; widget *Placement rate 6 bulan* di dashboard admin.
 - Akun hiring partner dibuat oleh admin (menu Pengguna → role `partner` + pilih perusahaan).
 
+## Prototype statis untuk pitch (tanpa backend)
+
+Build SPA statis berisi data dummy; API di-mock di browser (`web/app/demo/mock.ts`) dengan aturan yang meniru
+backend: checkout + voucher + simulasi bayar, progres & tugas, grading mentor → sertifikat, kuesioner MBL, lamaran kerja,
+pipeline & talent pool mitra. Perubahan tersimpan di localStorage browser; tanggal cohort/live otomatis digeser relatif
+ke hari presentasi.
+
+```bash
+cd web
+pnpm demo:build      # → web/dist-demo/ dan web/kea-prototype.zip (±280 KB)
+pnpm demo:preview    # buka http://localhost:4000
+```
+
+- Bisa di-host di hosting statis mana pun, termasuk subfolder (hash routing + path relatif): Netlify drop, Vercel, GitHub Pages, S3.
+- **Live:** https://rizkybor.github.io/kea/ (GitHub Pages dari branch `gh-pages`, isinya hanya build statis). Update: jalankan
+  `pnpm demo:build`, salin isi `web/dist-demo/` + file kosong `.nojekyll` ke checkout branch `gh-pages`, commit, lalu push.
+- Tombol **Prototype** di kanan bawah: ganti peran (Pengunjung, Learner, Alumni, Mentor, Hiring partner) dan *Reset data demo*.
+- Data dummy diambil dari seed API: jalankan `php artisan migrate:fresh --seed` + `php artisan serve`, lalu `pnpm demo:snapshot`.
+- Unduhan PDF sertifikat/CV memakai file contoh (`web/public/demo/`). Butuh internet hanya untuk font Google.
+
 ## Tes
 
 ```bash

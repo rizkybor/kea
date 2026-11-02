@@ -5,6 +5,12 @@ import type { ApiErrorBody } from '~/types/api'
  * dan header X-XSRF-TOKEN diisi dari cookie untuk request yang mengubah data.
  */
 export function useApi() {
+  if (useRuntimeConfig().public.demo) {
+    // Mode prototype: mock di-load terpisah supaya fixture tidak ikut di build produksi.
+    const demoFetch = (url: string, options?: Record<string, unknown>) => import('~/demo/mock').then(m => m.demoFetch(url, options))
+    return demoFetch as unknown as typeof $fetch
+  }
+
   const headers = import.meta.server ? useRequestHeaders(['cookie']) : {}
 
   return $fetch.create({

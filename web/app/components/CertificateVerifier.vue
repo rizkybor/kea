@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { asset } from '~/utils/asset'
 import type { Certificate } from '~/types/api'
 import { formatDate } from '~/utils/format'
 
@@ -43,7 +44,7 @@ function check() {
       <section aria-label="Pratinjau sertifikat" class="relative flex aspect-[1.414] flex-col justify-between overflow-hidden rounded-kea-lg border-[3px] border-kea-forest bg-white p-6 sm:p-10">
         <span class="absolute inset-x-0 top-0 h-2 bg-kea-ember" aria-hidden="true" />
         <div class="flex items-center justify-between">
-          <span class="flex items-center gap-2"><img src="/kea-icon.svg" alt="KEA" width="40" height="40"><b class="text-xl text-kea-forest">KEA</b></span>
+          <span class="flex items-center gap-2"><img :src="asset('kea-icon.svg')" alt="KEA" width="40" height="40"><b class="text-xl text-kea-forest">KEA</b></span>
           <span class="text-xs text-kea-muted">by Jendela Cakra Digital</span>
         </div>
         <div class="flex flex-col gap-2">
