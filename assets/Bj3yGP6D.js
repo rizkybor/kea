@@ -1,0 +1,1 @@
+import{c as e,o as t}from"./TeCgPsBa.js";import{t as n}from"#entry";var r=t(async()=>{let t=n();if(await t.fetchUser(),!t.isMentor)return e(`/dashboard`)});export{r as default};

@@ -1,0 +1,1 @@
+import{c as e,o as t}from"./TeCgPsBa.js";import{t as n}from"#entry";var r=t(async t=>{let r=n();if(await r.fetchUser(),!r.isLoggedIn)return e({path:`/masuk`,query:{redirect:t.fullPath}})});export{r as default};

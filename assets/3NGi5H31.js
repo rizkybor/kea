@@ -1,0 +1,1 @@
+import{F as e,f as t,z as n}from"./CSpiqEsG.js";import{t as r}from"./BDNMzG2s.js";var i={},a={class:`min-h-screen bg-white`};function o(r,i){return e(),t(`div`,a,[n(r.$slots,`default`)])}var s=r(i,[[`render`,o]]);export{s as default};

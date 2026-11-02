@@ -1,0 +1,1 @@
+import{t as e}from"./DfyI6R5o.js";import{a as t}from"./CUek1Jeq.js";import{F as n,u as r,y as i}from"./CSpiqEsG.js";var a=i({__name:`index`,setup(i){return t({title:`Verifikasi sertifikat`,description:`Cek keaslian sertifikat kelulusan KEA dengan kode atau QR yang tertera di sertifikat.`}),(t,i)=>{let a=e;return n(),r(a)}}});export{a as default};

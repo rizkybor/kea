@@ -1,0 +1,1 @@
+import{F as e,Nt as t,d as n,f as r,y as i}from"./CSpiqEsG.js";var a={key:0,role:`alert`,class:`rounded-kea-md border border-[#f2c4bd] bg-[#fdf0ee] px-4 py-3 text-sm font-medium text-[#8a1c12]`},o=Object.assign(i({__name:`ErrorAlert`,props:{message:{}},setup(i){return(o,s)=>i.message?(e(),r(`p`,a,t(i.message),1)):n(``,!0)}}),{__name:`ErrorAlert`});export{o as t};

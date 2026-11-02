@@ -1,0 +1,1 @@
+import{L as e}from"./CUek1Jeq.js";function t(t){let n=e();return n.public.demo?t.replace(/^\//,``):(n.app.baseURL||`/`).replace(/\/?$/,`/`)+t.replace(/^\//,``)}export{t};
